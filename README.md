@@ -1,6 +1,6 @@
 # 📦 ProjetoWebServices
 
-API RESTful desenvolvida com **Spring Boot**, seguindo boas práticas de arquitetura em camadas. O projeto implementa um sistema de gerenciamento de recursos (como cursos, usuários, pedidos, etc.) com persistência via **JPA/Hibernate**, banco de dados embarcado **H2** para desenvolvimento/testes e **PostgreSQL** para produção.
+API RESTful desenvolvida com **Spring Boot**, seguindo boas práticas de arquitetura em camadas. O projeto implementa um sistema de gerenciamento de recursos (como produtos, usuários, pedidos, etc.) com persistência via **JPA/Hibernate**, banco de dados embarcado **H2** para desenvolvimento/testes e **PostgreSQL** para produção.
 
 ---
 
