@@ -29,4 +29,9 @@ public class UserService {
         return repository.save(obj);
     }
 
+    // operação para deletar um usuario do banco de dados
+
+    public void delete (Long id){
+        repository.deleteById(id);
+    }
 }
