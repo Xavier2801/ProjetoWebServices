@@ -2,8 +2,11 @@ package com.exampleCurso.course.services;
 
 import com.exampleCurso.course.entities.User;
 import com.exampleCurso.course.repositories.UserRepository;
+import com.exampleCurso.course.services.exception.DatabaseException;
 import com.exampleCurso.course.services.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,9 +35,17 @@ public class UserService {
 
     // operação para deletar um usuario do banco de dados
 
-    public void delete (Long id){
-        repository.deleteById(id);
+    public void delete(Long id) {
+        if (!repository.existsById(id)) {
+            throw new ResourceNotFoundException(id);
+        }
+        try {
+            repository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DatabaseException(e.getMessage());
+        }
     }
+
 
     // operação para atualizar os dados de um usuario
 
