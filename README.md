@@ -21,6 +21,7 @@ API RESTful desenvolvida com **Spring Boot**, seguindo boas práticas de arquite
 - [Banco de Dados](#banco-de-dados)
 - [Perfis de Ambiente](#perfis-de-ambiente)
 - [Tratamento de Exceções](#tratamento-de-exceções)
+- [Testes Unitários](#testes-unitários)
 - [Autor](#autor)
 
 ---
@@ -36,6 +37,7 @@ O **ProjetoWebServices** é uma aplicação backend que expõe uma API RESTful c
 - Enumerações mapeadas no banco de dados
 - Tratamento de exceções customizadas com respostas HTTP adequadas
 - Suporte a múltiplos perfis de ambiente (dev, test, prod)
+- Testes unitários com JUnit 5, Mockito e MockMvc (35 testes)
 
 ---
 
@@ -53,6 +55,9 @@ O **ProjetoWebServices** é uma aplicação backend que expõe uma API RESTful c
 | Maven | 3.x | Gerenciamento de dependências e build |
 | Docker | — | Containerização para deploy |
 | Render | — | Hospedagem em nuvem (produção) |
+| JUnit 5 | — | Framework de testes unitários |
+| Mockito | — | Mock de dependências nos testes |
+| MockMvc | — | Testes da camada REST |
 
 ---
 
@@ -373,6 +378,61 @@ O projeto implementa tratamento de exceções customizado:
 |---|---|---|
 | `ResourceNotFoundException` | Recurso não encontrado pelo ID | 404 Not Found |
 | `DatabaseException` | Violação de integridade referencial | 400 Bad Request |
+
+---
+
+## 🧪 Testes Unitários
+
+O projeto conta com **35 testes unitários** distribuídos em 4 arquivos, cobrindo as camadas de Service e Resource.
+
+### Executar os testes
+
+```bash
+./mvnw test
+```
+
+**Windows:**
+```bash
+mvnw.cmd test
+```
+
+### Resultado esperado
+
+```
+Tests run: 35, Failures: 0, Errors: 0, Skipped: 0
+```
+
+### Cobertura por arquivo
+
+| Arquivo | Camada | Testes | O que cobre |
+|---|---|---|---|
+| `UserServiceTest` | Service | 8 | findAll, findById, insert, delete, update e exceções |
+| `OrderServiceTest` | Service | 7 | findAll, findById, insert e validação de status |
+| `ProductServiceTest` | Service | 7 | findAll, findById, insert e validação de preço |
+| `UserResourceTest` | Resource | 10 | GET, POST, PUT, DELETE com status HTTP corretos |
+
+### Tecnologias usadas nos testes
+
+- **JUnit 5** — framework de testes com `@Test` e `@DisplayName`
+- **Mockito** — mock de repositórios com `@Mock` e `@MockitoBean`
+- **AssertJ** — asserções fluentes com `assertThat`
+- **MockMvc** — simulação de requisições HTTP sem subir servidor real
+- **H2** — banco em memória ativo no perfil `test`
+
+### Estrutura dos arquivos de teste
+
+```
+src/
+└── test/
+    └── java/
+        └── com/exampleCurso/course/
+            ├── services/
+            │   ├── UserServiceTest.java
+            │   ├── OrderServiceTest.java
+            │   └── ProductServiceTest.java
+            └── resources/
+                └── UserResourceTest.java
+```
 
 ---
 
