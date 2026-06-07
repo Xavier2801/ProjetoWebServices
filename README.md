@@ -21,7 +21,7 @@ API RESTful desenvolvida com **Spring Boot**, seguindo boas práticas de arquite
 - [Banco de Dados](#banco-de-dados)
 - [Perfis de Ambiente](#perfis-de-ambiente)
 - [Tratamento de Exceções](#tratamento-de-exceções)
-- [Testes Unitários](#testes-unitários)
+- [Testes Unitários e Cobertura de Código](#testes-unitários-e-cobertura-de-código)
 - [Autor](#autor)
 
 ---
@@ -37,7 +37,8 @@ O **ProjetoWebServices** é uma aplicação backend que expõe uma API RESTful c
 - Enumerações mapeadas no banco de dados
 - Tratamento de exceções customizadas com respostas HTTP adequadas
 - Suporte a múltiplos perfis de ambiente (dev, test, prod)
-- Testes unitários com JUnit 5, Mockito e MockMvc (35 testes)
+- Testes unitários com JUnit 5, Mockito e MockMvc
+- Relatório de cobertura de código com JaCoCo (**78% de cobertura**)
 
 ---
 
@@ -58,6 +59,7 @@ O **ProjetoWebServices** é uma aplicação backend que expõe uma API RESTful c
 | JUnit 5 | — | Framework de testes unitários |
 | Mockito | — | Mock de dependências nos testes |
 | MockMvc | — | Testes da camada REST |
+| JaCoCo | 0.8.12 | Relatório de cobertura de código |
 
 ---
 
@@ -381,9 +383,15 @@ O projeto implementa tratamento de exceções customizado:
 
 ---
 
-## 🧪 Testes Unitários
+## 🧪 Testes Unitários e Cobertura de Código
 
-O projeto conta com **35 testes unitários** distribuídos em 4 arquivos, cobrindo as camadas de Service e Resource.
+O projeto conta com testes unitários cobrindo as camadas de Service, Resource e Entidades, com relatório de cobertura gerado pelo **JaCoCo**.
+
+### Cobertura atual
+
+![Coverage](https://img.shields.io/badge/coverage-78%25-yellowgreen)
+
+> Relatório completo disponível em `target/site/jacoco/index.html` após rodar os testes.
 
 ### Executar os testes
 
@@ -396,28 +404,62 @@ O projeto conta com **35 testes unitários** distribuídos em 4 arquivos, cobrin
 mvnw.cmd test
 ```
 
-### Resultado esperado
+O JaCoCo gera o relatório automaticamente ao fim dos testes. Abra o arquivo abaixo no navegador para ver a cobertura detalhada por classe e linha:
 
 ```
-Tests run: 35, Failures: 0, Errors: 0, Skipped: 0
+target/site/jacoco/index.html
 ```
 
-### Cobertura por arquivo
+### Resultado dos testes
 
-| Arquivo | Camada | Testes | O que cobre |
-|---|---|---|---|
-| `UserServiceTest` | Service | 8 | findAll, findById, insert, delete, update e exceções |
-| `OrderServiceTest` | Service | 7 | findAll, findById, insert e validação de status |
-| `ProductServiceTest` | Service | 7 | findAll, findById, insert e validação de preço |
-| `UserResourceTest` | Resource | 10 | GET, POST, PUT, DELETE com status HTTP corretos |
+```
+Tests run: 48, Failures: 0, Errors: 0, Skipped: 0
+```
+
+### Arquivos de teste
+
+| Arquivo | Camada | O que cobre |
+|---|---|---|
+| `UserServiceTest` | Service | findAll, findById, insert, delete, update e exceções |
+| `OrderServiceTest` | Service | findAll, findById, insert e validação de status |
+| `ProductServiceTest` | Service | findAll, findById, insert e validação de preço |
+| `OrderEntityTest` | Entidade | getTotal, getSubTotal, OrderStatus, equals/hashCode |
+| `UserResourceTest` | Resource | GET, POST, PUT, DELETE com status HTTP corretos |
+| `OrderResourceTest` | Resource | GET e POST com status HTTP corretos |
+| `ProductResourceTest` | Resource | GET e POST com status HTTP corretos |
 
 ### Tecnologias usadas nos testes
 
 - **JUnit 5** — framework de testes com `@Test` e `@DisplayName`
-- **Mockito** — mock de repositórios com `@Mock` e `@MockitoBean`
+- **Mockito** — mock de repositórios e serviços com `@Mock` e `@MockitoBean`
 - **AssertJ** — asserções fluentes com `assertThat`
 - **MockMvc** — simulação de requisições HTTP sem subir servidor real
+- **JaCoCo 0.8.12** — relatório de cobertura de código por linha e branch
 - **H2** — banco em memória ativo no perfil `test`
+
+### Configuração do JaCoCo no pom.xml
+
+```xml
+<plugin>
+    <groupId>org.jacoco</groupId>
+    <artifactId>jacoco-maven-plugin</artifactId>
+    <version>0.8.12</version>
+    <executions>
+        <execution>
+            <goals>
+                <goal>prepare-agent</goal>
+            </goals>
+        </execution>
+        <execution>
+            <id>report</id>
+            <phase>test</phase>
+            <goals>
+                <goal>report</goal>
+            </goals>
+        </execution>
+    </executions>
+</plugin>
+```
 
 ### Estrutura dos arquivos de teste
 
@@ -426,12 +468,16 @@ src/
 └── test/
     └── java/
         └── com/exampleCurso/course/
+            ├── entities/
+            │   └── OrderEntityTest.java
             ├── services/
             │   ├── UserServiceTest.java
             │   ├── OrderServiceTest.java
             │   └── ProductServiceTest.java
             └── resources/
-                └── UserResourceTest.java
+                ├── UserResourceTest.java
+                ├── OrderResourceTest.java
+                └── ProductResourceTest.java
 ```
 
 ---
