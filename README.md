@@ -38,7 +38,7 @@ O **ProjetoWebServices** é uma aplicação backend que expõe uma API RESTful c
 - Tratamento de exceções customizadas com respostas HTTP adequadas
 - Suporte a múltiplos perfis de ambiente (dev, test, prod)
 - Testes unitários com JUnit 5, Mockito e MockMvc
-- Relatório de cobertura de código com JaCoCo (**78% de cobertura**)
+- Relatório de cobertura de código com JaCoCo (**90% de cobertura**)
 
 ---
 
@@ -389,7 +389,7 @@ O projeto conta com testes unitários cobrindo as camadas de Service, Resource e
 
 ### Cobertura atual
 
-![Coverage](https://img.shields.io/badge/coverage-78%25-yellowgreen)
+![Coverage](https://img.shields.io/badge/coverage-90%25-brightgreen)
 
 > Relatório completo disponível em `target/site/jacoco/index.html` após rodar os testes.
 
@@ -413,7 +413,7 @@ target/site/jacoco/index.html
 ### Resultado dos testes
 
 ```
-Tests run: 48, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 88, Failures: 0, Errors: 0, Skipped: 0
 ```
 
 ### Arquivos de teste
@@ -424,6 +424,7 @@ Tests run: 48, Failures: 0, Errors: 0, Skipped: 0
 | `OrderServiceTest` | Service | findAll, findById, insert e validação de status |
 | `ProductServiceTest` | Service | findAll, findById, insert e validação de preço |
 | `OrderEntityTest` | Entidade | getTotal, getSubTotal, OrderStatus, equals/hashCode |
+| `EntitiesTest` | Entidade | Product, Category, Payment, OrderItemPK, exceções e StandardError |
 | `UserResourceTest` | Resource | GET, POST, PUT, DELETE com status HTTP corretos |
 | `OrderResourceTest` | Resource | GET e POST com status HTTP corretos |
 | `ProductResourceTest` | Resource | GET e POST com status HTTP corretos |
@@ -469,7 +470,8 @@ src/
     └── java/
         └── com/exampleCurso/course/
             ├── entities/
-            │   └── OrderEntityTest.java
+            │   ├── OrderEntityTest.java
+            │   └── EntitiesTest.java
             ├── services/
             │   ├── UserServiceTest.java
             │   ├── OrderServiceTest.java
